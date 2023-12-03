@@ -1,10 +1,12 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const replaceText = (selector: string, text: string) => {
-    const element = document.getElementById(selector);
-    if (element) element.innerText = text;
-  };
+import { ScoreBoard } from './server/ScoreBoard';
+import { ipcRenderer } from 'electron';
 
-  for (const dependency of ['chrome', 'node', 'electron']) {
-    replaceText(`${dependency}-version`, process.versions[dependency]);
-  }
+window.addEventListener('DOMContentLoaded', () => {
+  const counter = document.getElementById('homeScore');
+  ipcRenderer.on('updateHomeScore', (_event, scoreBoard: ScoreBoard) => {
+    console.log('updateHomeScore Event invoked in preload');
+    const oldValue = Number(counter.innerText);
+    console.log(`Old Value: ${oldValue} - New Value: ${scoreBoard.homeScore}`);
+    counter.innerText = scoreBoard.homeScore.toString();
+  });
 });
