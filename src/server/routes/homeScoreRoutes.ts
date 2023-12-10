@@ -1,5 +1,6 @@
 import type { Express, Request, Response } from 'express';
 
+import { ScoreBoardEvent } from '../../constants/events';
 import { setHtmlResponse } from '../setHtmlResponse';
 
 export const addHomeScoreRoutes = (app: Express) => {
@@ -12,8 +13,12 @@ export const addHomeScoreRoutes = (app: Express) => {
 
   app.post('/homeScore', (req: Request, res: Response) => {
     console.log('homeScore post Hit');
-    req.query.decrement ? (global.scoreBoard.homeScore -= 1) : (global.scoreBoard.homeScore += 1);
-    global.eventEmitter.emit('updateHomeScore');
+
+    if (req.query.decrement) global.scoreBoard.homeScore -= 1;
+    else if (req.query.reset) global.scoreBoard.homeScore = 0;
+    else global.scoreBoard.homeScore += 1;
+
+    global.eventEmitter.emit(ScoreBoardEvent);
     return res.status(204).send();
   });
 };

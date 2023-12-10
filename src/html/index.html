@@ -3,11 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' http://localhost:*;" />
     <title>BeeTV Score Board v2</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    Home Score Is: <strong id="homeScore">0</strong>
+    <h1>BeeTV Score Board v2</h1>
+    <div>
+      <form>
+        <label for="hTeam">Set Home Team:</label>
+        <input type="text" id="hTeam" />
+        <label for="aTeam">Set Away Team:</label>
+        <input type="text" id="aTeam" />
+        <button id="updateTeamNamesButton" type="button">Update Team Names</button>
+      </form>
+    </div>
+    <div>Home Team: <strong id="homeTeam"></strong> | Away Team: <strong id="awayTeam"></strong></div>
+    <div>
+      Home Score: <strong id="homeScore">0</strong> <button id="homeScoreAddButton" type="button">Add</button> <button id="homeScoreRemoveButton" type="button">Remove</button>
+      <button id="homeScoreResetButton" type="button">Reset</button>
+    </div>
+    <div>
+      Away Score: <strong id="awayScore">0</strong> <button id="awayScoreAddButton" type="button">Add</button> <button id="awayScoreRemoveButton" type="button">Remove</button>
+      <button id="awayScoreResetButton" type="button">Reset</button>
+    </div>
   </body>
 </html>
