@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { BrowserWindow, app } from 'electron';
 
 import { EventEmitter } from 'events';
-import { ScoreBoardEvent } from './constants/events';
+import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent, ScoreBoardEvent } from './constants/events';
 import { serverStart } from './server/serverStart';
 
 import path = require('node:path');
@@ -13,6 +13,10 @@ global.scoreBoard = {
   awayScore: 0,
   homeTeam: '',
   awayTeam: '',
+  clock: '00:00',
+  clockSeconds: 0,
+  clockInterval: null,
+  clockRunning: false,
 };
 
 const eventEmitter = new EventEmitter();
@@ -32,6 +36,16 @@ const runElectron = () => {
     global.eventEmitter.on(ScoreBoardEvent, () => {
       console.log('Firing update_score_event mainWindow event');
       mainWindow.webContents.send(ScoreBoardEvent, global.scoreBoard);
+    });
+
+    global.eventEmitter.on(ScoreBoardClockEvent, () => {
+      console.log('Firing update_clock_event mainWindow event');
+      mainWindow.webContents.send(ScoreBoardClockEvent, global.scoreBoard.clock);
+    });
+
+    global.eventEmitter.on(ScoreBoardClockRunningEvent, () => {
+      console.log('Firing update_clock_running_event mainWindow event');
+      mainWindow.webContents.send(ScoreBoardClockRunningEvent, global.scoreBoard.clockRunning);
     });
 
     mainWindow.loadFile('src/html/index.html');

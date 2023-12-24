@@ -28,6 +28,17 @@ const setupUpdateTeamsButtonListener = () => {
   });
 };
 
+const setupSetClockButtonListener = () => {
+  const button = document.getElementById('setClockButton');
+  button.addEventListener('click', () => {
+    const clockInputMinutes = <HTMLInputElement>document.getElementById('setClockMinutes');
+    const clockInputSeconds = <HTMLInputElement>document.getElementById('setClockSeconds');
+    fetch(fullUrl(`setClock?clock=${clockInputMinutes.value}:${clockInputSeconds.value}`), {
+      method: 'POST',
+    });
+  });
+};
+
 window.addEventListener('DOMContentLoaded', () => {
   counters.push(document.getElementById('homeScore'));
   counters.push(document.getElementById('awayScore'));
@@ -42,12 +53,29 @@ window.addEventListener('DOMContentLoaded', () => {
   setupButtonListener('awayScoreRemoveButton', 'awayScore?decrement=true');
   setupButtonListener('awayScoreResetButton', 'awayScore?reset=true');
 
+  setupButtonListener('clockStartButton', 'startClock');
+  setupButtonListener('clockStopButton', 'stopClock');
+
   setupUpdateTeamsButtonListener();
+
+  setupSetClockButtonListener();
 
   ipcRenderer.on('update_scoreboard_event', (_event, scoreBoard: ScoreBoard) => {
     console.log('updateScoreBoard Event invoked in preload');
     counters.forEach((counter) => {
       counter.innerText = scoreBoard[counter.id].toString();
     });
+  });
+
+  ipcRenderer.on('update_clock_event', (_event, scoreBoardClock: string) => {
+    console.log('updateClock Event invoked in preload');
+    const clock = document.getElementById('clock');
+    clock.innerText = scoreBoardClock.toString();
+  });
+
+  ipcRenderer.on('update_clock_running_event', (_event, scoreBoardClockRunning: boolean) => {
+    console.log('updateClockRunning Event invoked in preload');
+    const clockStatus = document.getElementById('clockStatus');
+    clockStatus.innerText = scoreBoardClockRunning ? '(Running)' : '(Stopped)';
   });
 });

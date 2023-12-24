@@ -3,10 +3,12 @@ import { addAwayScoreRoutes } from './awayScoreRoutes';
 import { addDebugRoutes } from './debugRoutes';
 import { addHomeScoreRoutes } from './homeScoreRoutes';
 import { addTeamsRoutes } from './teamsRoutes';
+import { addClockRoutes } from './clockRoutes';
 
 export const addRoutes = (app: Express) => {
   addHomeScoreRoutes(app);
   addAwayScoreRoutes(app);
   addTeamsRoutes(app);
+  addClockRoutes(app);
   addDebugRoutes(app);
 };
