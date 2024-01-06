@@ -14,7 +14,14 @@ export const addClockRoutes = (app: Express) => {
   app.post('/setClock', (req: Request, res: Response) => {
     console.log('setClock post Hit');
 
-    global.scoreBoard.clock = req.query.clock;
+    const clockValue = req.query.clock as string;
+    const timeComponents = clockValue.split(':');
+    const minutes = parseInt(timeComponents[0]);
+    const seconds = parseInt(timeComponents[1]);
+    const clockValueInSeconds = minutes * 60 + seconds;
+
+    global.scoreBoard.clock = clockValue;
+    global.scoreBoard.clockSeconds = clockValueInSeconds;
 
     global.eventEmitter.emit(ScoreBoardClockEvent);
     return res.status(204).send();

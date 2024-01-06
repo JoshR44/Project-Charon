@@ -7,4 +7,5 @@ export interface ScoreBoard {
   clockSeconds: number;
   clockInterval: NodeJS.Timeout;
   clockRunning: boolean;
+  quarterLength: number;
 }

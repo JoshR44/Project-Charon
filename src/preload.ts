@@ -56,6 +56,12 @@ window.addEventListener('DOMContentLoaded', () => {
   setupButtonListener('clockStartButton', 'startClock');
   setupButtonListener('clockStopButton', 'stopClock');
 
+  setupButtonListener('setQ1Button', 'setQuarter?quarter=0');
+  setupButtonListener('setQ2Button', 'setQuarter?quarter=1');
+  setupButtonListener('setQ3Button', 'setQuarter?quarter=2');
+  setupButtonListener('setQ4Button', 'setQuarter?quarter=3');
+  setupButtonListener('setQ5Button', 'setQuarter?quarter=4');
+
   setupUpdateTeamsButtonListener();
 
   setupSetClockButtonListener();
@@ -77,5 +83,13 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('updateClockRunning Event invoked in preload');
     const clockStatus = document.getElementById('clockStatus');
     clockStatus.innerText = scoreBoardClockRunning ? '(Running)' : '(Stopped)';
+  });
+
+  ipcRenderer.on('update_quarter_length_event', (_event, scoreBoardQuarterLength: number) => {
+    console.log('updateQuarterLength Event invoked in preload');
+    const quarterLength = document.getElementById('quarterLength');
+    const minutes = Math.floor(scoreBoardQuarterLength / 60);
+    const seconds = scoreBoardQuarterLength % 60;
+    quarterLength.innerText = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   });
 });
