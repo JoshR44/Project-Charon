@@ -18,6 +18,7 @@
       </form>
     </div>
     <div>Home Team: <strong id="homeTeam"></strong> | Away Team: <strong id="awayTeam"></strong></div>
+    <hr />
     <div>
       Home Score: <strong id="homeScore">0</strong> <button id="homeScoreAddButton" type="button">Add</button> <button id="homeScoreRemoveButton" type="button">Remove</button>
       <button id="homeScoreResetButton" type="button">Reset</button>
@@ -26,5 +27,21 @@
       Away Score: <strong id="awayScore">0</strong> <button id="awayScoreAddButton" type="button">Add</button> <button id="awayScoreRemoveButton" type="button">Remove</button>
       <button id="awayScoreResetButton" type="button">Reset</button>
     </div>
+    <hr />
+    <div>
+      Clock <strong id="clockStatus">(Stopped)</strong>: <strong id="clock">00:00</strong> <button id="clockStartButton" type="button">Start</button>
+      <button id="clockStopButton" type="button">Stop</button>
+      Quarter Length: <strong id="quarterLength">17:30</strong>
+    </div>
+    <div>
+      <button id="setQ1Button" type="button">Set Q1</button> <button id="setQ2Button" type="button">Set Q2</button> <button id="setQ3Button" type="button">Set Q3</button>
+      <button id="setQ4Button" type="button">Set Q4</button> <button id="setQ5Button" type="button">Set End</button>
+    </div>
+    <form>
+      <div>
+        <input type="text" id="setClockMinutes" /> <input type="text" id="setClockSeconds" /> <button id="setClockButton" type="button">Set Clock</button>
+        <button id="setQuarterLengthButton" type="button">Set Quarter Length</button>
+      </div>
+    </form>
   </body>
 </html>

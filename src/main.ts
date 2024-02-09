@@ -1,18 +1,25 @@
 import 'dotenv/config';
 
 import { BrowserWindow, app } from 'electron';
+import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent, ScoreBoardEvent, ScoreBoardQuarterLengthEvent } from './constants/events';
 
 import { EventEmitter } from 'events';
-import { ScoreBoardEvent } from './constants/events';
 import { serverStart } from './server/serverStart';
 
 import path = require('node:path');
 
 global.scoreBoard = {
-  homeScore: 0,
-  awayScore: 0,
-  homeTeam: '',
-  awayTeam: '',
+  teamInfo: {
+    homeScore: 0,
+    awayScore: 0,
+    homeTeam: '',
+    awayTeam: '',
+  },
+  clock: '00:00',
+  clockSeconds: 0,
+  clockInterval: null,
+  clockRunning: false,
+  quarterLength: 1050,
 };
 
 const eventEmitter = new EventEmitter();
@@ -31,7 +38,22 @@ const runElectron = () => {
 
     global.eventEmitter.on(ScoreBoardEvent, () => {
       console.log('Firing update_score_event mainWindow event');
-      mainWindow.webContents.send(ScoreBoardEvent, global.scoreBoard);
+      mainWindow.webContents.send(ScoreBoardEvent, global.scoreBoard.teamInfo);
+    });
+
+    global.eventEmitter.on(ScoreBoardClockEvent, () => {
+      console.log('Firing update_clock_event mainWindow event');
+      mainWindow.webContents.send(ScoreBoardClockEvent, global.scoreBoard.clock);
+    });
+
+    global.eventEmitter.on(ScoreBoardClockRunningEvent, () => {
+      console.log('Firing update_clock_running_event mainWindow event');
+      mainWindow.webContents.send(ScoreBoardClockRunningEvent, global.scoreBoard.clockRunning);
+    });
+
+    global.eventEmitter.on(ScoreBoardQuarterLengthEvent, () => {
+      console.log('Firing update_quarter_length_event mainWindow event');
+      mainWindow.webContents.send(ScoreBoardQuarterLengthEvent, global.scoreBoard.quarterLength);
     });
 
     mainWindow.loadFile('src/html/index.html');

@@ -8,19 +8,19 @@ export const addTeamsRoutes = (app: Express) => {
 
   app.get('/homeTeam', (_req: Request, res: Response) => {
     console.log('homeTeam get Hit');
-    return res.status(200).send(setHtmlResponse(global.scoreBoard.homeTeam));
+    return res.status(200).send(setHtmlResponse(global.scoreBoard.teamInfo.homeTeam));
   });
 
   app.get('/awayTeam', (_req: Request, res: Response) => {
     console.log('awayTeam get Hit');
-    return res.status(200).send(setHtmlResponse(global.scoreBoard.awayTeam));
+    return res.status(200).send(setHtmlResponse(global.scoreBoard.teamInfo.awayTeam));
   });
 
   app.post('/updateTeams', (req: Request, res: Response) => {
     console.log('updateTeams post Hit');
 
-    global.scoreBoard.homeTeam = req.query.homeTeam;
-    global.scoreBoard.awayTeam = req.query.awayTeam;
+    global.scoreBoard.teamInfo.homeTeam = req.query.homeTeam;
+    global.scoreBoard.teamInfo.awayTeam = req.query.awayTeam;
 
     global.eventEmitter.emit(ScoreBoardEvent);
     return res.status(204).send();
