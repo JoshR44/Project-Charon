@@ -1,6 +1,8 @@
 import { TeamInfo } from './server/ScoreBoard';
 import { ipcRenderer } from 'electron';
 
+if (process.env.RUN_LOGS !== 'true') console.log = () => {};
+
 const counters: Array<HTMLElement> = [];
 
 const fullUrl = (route: string): string => {

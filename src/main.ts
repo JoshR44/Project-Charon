@@ -76,5 +76,7 @@ const runExpress = () => {
   serverStart();
 };
 
+if (process.env.RUN_LOGS !== 'true') console.log = () => {};
+
 if (process.env.RUN_ELECTRON === 'true') runElectron();
 if (process.env.RUN_EXPRESS === 'true') runExpress();
