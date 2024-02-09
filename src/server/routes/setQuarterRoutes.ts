@@ -1,6 +1,5 @@
 import type { Express, Request, Response } from 'express';
-
-import { ScoreBoardClockEvent } from '../../constants/events';
+import { ScoreBoardClockEvent, ScoreBoardQuarterLengthEvent } from '../../constants/events';
 
 export const addSetQuarterRoutes = (app: Express) => {
   console.log('Adding away score routes');
@@ -28,10 +27,9 @@ export const addSetQuarterRoutes = (app: Express) => {
     const seconds = parseInt(timeComponents[1]);
     const clockValueInSeconds = minutes * 60 + seconds;
 
-    global.scoreBoard.clock = clockValue;
-    global.scoreBoard.clockSeconds = clockValueInSeconds;
+    global.scoreBoard.quarterLength = clockValueInSeconds;
 
-    global.eventEmitter.emit(ScoreBoardClockEvent);
+    global.eventEmitter.emit(ScoreBoardQuarterLengthEvent);
     return res.status(204).send();
   });
 };

@@ -1,4 +1,4 @@
-import { ScoreBoard } from './server/ScoreBoard';
+import { TeamInfo } from './server/ScoreBoard';
 import { ipcRenderer } from 'electron';
 
 const counters: Array<HTMLElement> = [];
@@ -39,6 +39,17 @@ const setupSetClockButtonListener = () => {
   });
 };
 
+const setupSetQuarterLengthButtonListener = () => {
+  const button = document.getElementById('setQuarterLengthButton');
+  button.addEventListener('click', () => {
+    const clockInputMinutes = <HTMLInputElement>document.getElementById('setClockMinutes');
+    const clockInputSeconds = <HTMLInputElement>document.getElementById('setClockSeconds');
+    fetch(fullUrl(`setQuarterLength?clock=${clockInputMinutes.value}:${clockInputSeconds.value}`), {
+      method: 'POST',
+    });
+  });
+};
+
 window.addEventListener('DOMContentLoaded', () => {
   counters.push(document.getElementById('homeScore'));
   counters.push(document.getElementById('awayScore'));
@@ -65,11 +76,12 @@ window.addEventListener('DOMContentLoaded', () => {
   setupUpdateTeamsButtonListener();
 
   setupSetClockButtonListener();
+  setupSetQuarterLengthButtonListener();
 
-  ipcRenderer.on('update_scoreboard_event', (_event, scoreBoard: ScoreBoard) => {
+  ipcRenderer.on('update_scoreboard_event', (_event, teamInfo: TeamInfo) => {
     console.log('updateScoreBoard Event invoked in preload');
     counters.forEach((counter) => {
-      counter.innerText = scoreBoard[counter.id].toString();
+      counter.innerText = teamInfo[counter.id].toString();
     });
   });
 

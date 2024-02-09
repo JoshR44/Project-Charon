@@ -1,6 +1,6 @@
 import type { Express, Request, Response } from 'express';
-
 import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent } from '../../constants/events';
+
 import { setHtmlResponse } from '../setHtmlResponse';
 
 export const addClockRoutes = (app: Express) => {
@@ -36,6 +36,13 @@ export const addClockRoutes = (app: Express) => {
 
     global.scoreBoard.clockInterval = setInterval(() => {
       global.scoreBoard.clockSeconds++;
+
+      if (global.scoreBoard.clockSeconds % global.scoreBoard.quarterLength === 0) {
+        clearInterval(global.scoreBoard.clockInterval);
+        global.scoreBoard.clockRunning = false;
+        global.eventEmitter.emit(ScoreBoardClockRunningEvent);
+      }
+
       const minutes = Math.floor(global.scoreBoard.clockSeconds / 60);
       const seconds = global.scoreBoard.clockSeconds % 60;
       global.scoreBoard.clock = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;

@@ -1,18 +1,20 @@
 import 'dotenv/config';
 
 import { BrowserWindow, app } from 'electron';
+import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent, ScoreBoardEvent, ScoreBoardQuarterLengthEvent } from './constants/events';
 
 import { EventEmitter } from 'events';
-import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent, ScoreBoardEvent, ScoreBoardQuarterLengthEvent } from './constants/events';
 import { serverStart } from './server/serverStart';
 
 import path = require('node:path');
 
 global.scoreBoard = {
-  homeScore: 0,
-  awayScore: 0,
-  homeTeam: '',
-  awayTeam: '',
+  teamInfo: {
+    homeScore: 0,
+    awayScore: 0,
+    homeTeam: '',
+    awayTeam: '',
+  },
   clock: '00:00',
   clockSeconds: 0,
   clockInterval: null,
@@ -36,7 +38,7 @@ const runElectron = () => {
 
     global.eventEmitter.on(ScoreBoardEvent, () => {
       console.log('Firing update_score_event mainWindow event');
-      mainWindow.webContents.send(ScoreBoardEvent, global.scoreBoard);
+      mainWindow.webContents.send(ScoreBoardEvent, global.scoreBoard.teamInfo);
     });
 
     global.eventEmitter.on(ScoreBoardClockEvent, () => {
