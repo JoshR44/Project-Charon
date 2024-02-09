@@ -1,14 +1,14 @@
 import type { Express, Request, Response } from 'express';
 import { ScoreBoardClockEvent, ScoreBoardClockRunningEvent } from '../../constants/events';
 
-import { setHtmlResponse } from '../setHtmlResponse';
+import { setHtmlResponseClock } from '../setHtmlResponse';
 
 export const addClockRoutes = (app: Express) => {
   console.log('Adding clock routes');
 
   app.get('/clock', (_req: Request, res: Response) => {
     console.log('clock get Hit');
-    return res.status(200).send(setHtmlResponse(global.scoreBoard.clock));
+    return res.status(200).send(setHtmlResponseClock(global.scoreBoard.clock));
   });
 
   app.post('/setClock', (req: Request, res: Response) => {
