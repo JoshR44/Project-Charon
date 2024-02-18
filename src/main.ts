@@ -56,7 +56,7 @@ const runElectron = () => {
       mainWindow.webContents.send(ScoreBoardQuarterLengthEvent, global.scoreBoard.quarterLength);
     });
 
-    mainWindow.loadFile('src/html/index.html');
+    mainWindow.loadFile('dist/html/index.html');
   };
 
   app.whenReady().then(() => {
