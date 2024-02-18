@@ -7,8 +7,10 @@
     "build": "rm -rf dist && tsc",
     "watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "start:dev": "nodemon --watch . --exec \"electron .\""
+    "start": "electron-forge start",
+    "start:dev": "nodemon --watch . --exec \"electron .\"",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,12 @@
   },
   "homepage": "https://github.com/JoshR44/Project-Charon#readme",
   "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
     "@types/express": "^4.17.21",
     "electron": "^27.1.2",
     "nodemon": "^3.0.2",
@@ -28,6 +36,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
+    "electron-squirrel-startup": "^1.0.0",
     "express": "^4.18.2"
   }
 }
